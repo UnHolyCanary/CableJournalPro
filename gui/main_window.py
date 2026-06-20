@@ -1,5 +1,6 @@
 from gui.widgets.layers_page import LayersPage
 from gui.widgets.overview_page import OverviewPage
+from gui.widgets.blocks_page import BlocksPage
 from core.report import ProjectReport
 import PySide6.QtWidgets
 from PySide6.QtGui import QAction
@@ -68,8 +69,10 @@ class MainWindow(PySide6.QtWidgets.QMainWindow):
 
         self.overview = OverviewPage()
         self.layers = LayersPage()
+        self.blocks = BlocksPage()
         self.tabs.addTab(self.overview, "Обзор")
         self.tabs.addTab(self.layers, "Слои")
+        self.tabs.addTab(self.blocks, "Блоки")
 
         layout.addWidget(self.tree)
         layout.addWidget(self.tabs)
@@ -85,9 +88,22 @@ class MainWindow(PySide6.QtWidgets.QMainWindow):
 
         try:
             self.project.open(filename)
+            
+            print("=" * 50)
+            
+            print("layers")
+            print(self.project.layer_info)
+            
+            print("=" * 50)
+            
+            print("blocks")
+            print(self.project.block_info)
+            
+            print("=" * 50) 
 
             self.overview.update_project(self.project)
             self.layers.update_project(self.project)
+            self.blocks.update_project(self.project)
             self.statusBar().showMessage("DXF успешно открыт")
 
         except Exception as e:
